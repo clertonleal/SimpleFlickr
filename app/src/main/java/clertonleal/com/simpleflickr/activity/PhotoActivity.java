@@ -1,8 +1,11 @@
 package clertonleal.com.simpleflickr.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,6 +30,7 @@ import clertonleal.com.simpleflickr.entity.Comment;
 import clertonleal.com.simpleflickr.entity.PhotoDetails;
 import clertonleal.com.simpleflickr.service.FlickrService;
 import clertonleal.com.simpleflickr.util.BundleKeys;
+import clertonleal.com.simpleflickr.util.ColorUtil;
 
 public class PhotoActivity extends BaseActivity {
 
@@ -116,7 +121,7 @@ public class PhotoActivity extends BaseActivity {
     }
 
     private void showPhoto(PhotoDetails photo) {
-        Picasso.with(this).load(photo.getPhotoUrl()).placeholder(R.drawable.photo_holder).into(imagePhoto);
+        Picasso.with(this).load(photo.getPhotoUrl()).placeholder(R.drawable.photo_holder).into(imagePhoto, callback);
         textPhotoTitle.setText(photo.getTitle().getContent());
         Picasso.with(this).load(photo.getOwner().getProfileIconUrl()).placeholder(R.drawable.ic_camera).into(imageProfile);
         textAuthorName.setText(photo.getOwner().getUserName());
@@ -140,6 +145,39 @@ public class PhotoActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private final Callback callback = new Callback() {
+        @Override
+        public void onSuccess() {
+            Palette.from(((BitmapDrawable) imagePhoto.getDrawable()).getBitmap()).generate(palette -> {
+                Palette.Swatch vibrantSwatch = getSwatch(palette);
+                toolbar.setBackgroundColor(vibrantSwatch.getRgb());
+                toolbar.setTitleTextColor(vibrantSwatch.getBodyTextColor());
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(ColorUtil.getDarkerColor(vibrantSwatch.getRgb()));
+                }
+            });
+        }
+
+        @Override
+        public void onError() {}
+    };
+
+    private Palette.Swatch getSwatch(Palette palette) {
+        Palette.Swatch swatch = palette.getVibrantSwatch();
+        if (swatch == null) {
+            swatch = palette.getLightVibrantSwatch();
+        }
+        if (swatch == null) {
+            swatch = palette.getDarkVibrantSwatch();
+        }
+        if (swatch == null) {
+            swatch = palette.getSwatches().get(0);
+        }
+
+        return swatch;
     }
 
     @Override

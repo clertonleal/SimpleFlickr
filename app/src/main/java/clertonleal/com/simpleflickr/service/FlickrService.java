@@ -11,7 +11,7 @@ import clertonleal.com.simpleflickr.entity.PhotoDetails;
 import clertonleal.com.simpleflickr.entity.PhotoWrapper;
 import clertonleal.com.simpleflickr.network.FlickrNetwork;
 import clertonleal.com.simpleflickr.util.Flickr;
-import clertonleal.com.simpleflickr.util.FlickrPhotos;
+import clertonleal.com.simpleflickr.util.PhotoType;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -26,8 +26,8 @@ public class FlickrService {
         this.flickrNetwork = flickrNetwork;
     }
 
-    public Observable<Page> retrievePhotosByType(Integer page, FlickrPhotos flickrPhotos) {
-        if (flickrPhotos == FlickrPhotos.POPULARS) {
+    public Observable<Page> retrievePhotosByType(Integer page, PhotoType photoType) {
+        if (photoType == PhotoType.POPULARS) {
             return retrievePopularPhotos(page);
         } else {
             return retrieveRecentPhotos(page);
