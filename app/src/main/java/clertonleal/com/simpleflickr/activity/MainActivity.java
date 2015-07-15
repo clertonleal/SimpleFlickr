@@ -1,13 +1,11 @@
 package clertonleal.com.simpleflickr.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -52,9 +50,6 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setListeners();
         checkInternet();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
         overridePendingTransition(R.anim.slide_out_down, R.anim.slide_in_up);
     }
 

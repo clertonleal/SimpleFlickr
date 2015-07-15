@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
@@ -30,33 +31,26 @@ import clertonleal.com.simpleflickr.entity.Comment;
 import clertonleal.com.simpleflickr.entity.PhotoDetails;
 import clertonleal.com.simpleflickr.service.FlickrService;
 import clertonleal.com.simpleflickr.util.BundleKeys;
-import clertonleal.com.simpleflickr.util.ColorUtil;
 
 public class PhotoActivity extends BaseActivity {
 
     @InjectView(R.id.image_photo)
     ImageView imagePhoto;
 
-    @InjectView(R.id.text_photo_information)
-    TextView textNumberComments;
-
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
 
+    @InjectView(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+
     @InjectView(R.id.image_profile)
     ImageView imageProfile;
-
-    @InjectView(R.id.text_author_name)
-    TextView textAuthorName;
-
-    @InjectView(R.id.text_photo_title)
-    TextView textPhotoTitle;
 
     @InjectView(R.id.list)
     SuperRecyclerView recyclerView;
 
     @InjectView(R.id.layout_photo)
-    LinearLayout layoutPhoto;
+    CoordinatorLayout layoutPhoto;
 
     @Inject
     FlickrService flickrService;
@@ -74,6 +68,7 @@ public class PhotoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setSupportActionBar(toolbar);
         configureRecycleView();
         showProgress();
         String photoId = getBundle().getString(BundleKeys.PHOTO_ID);
@@ -88,6 +83,9 @@ public class PhotoActivity extends BaseActivity {
 
         compositeSubscription.add(flickrService.retrieveComments(photoId).
                 subscribe(this::showComments, this::onError));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
     private void showProgress() {
@@ -122,10 +120,8 @@ public class PhotoActivity extends BaseActivity {
 
     private void showPhoto(PhotoDetails photo) {
         Picasso.with(this).load(photo.getPhotoUrl()).placeholder(R.drawable.photo_holder).into(imagePhoto, callback);
-        textPhotoTitle.setText(photo.getTitle().getContent());
+        collapsingToolbarLayout.setTitle(photo.getTitle().getContent());
         Picasso.with(this).load(photo.getOwner().getProfileIconUrl()).placeholder(R.drawable.ic_camera).into(imageProfile);
-        textAuthorName.setText(photo.getOwner().getUserName());
-        textNumberComments.setText(photo.getComments().getContent() + " " + getResources().getString(R.string.comments));
     }
 
     private void configureToolbar(PhotoDetails photo) {
@@ -151,12 +147,9 @@ public class PhotoActivity extends BaseActivity {
         @Override
         public void onSuccess() {
             Palette.from(((BitmapDrawable) imagePhoto.getDrawable()).getBitmap()).generate(palette -> {
-                Palette.Swatch vibrantSwatch = getSwatch(palette);
-                toolbar.setBackgroundColor(vibrantSwatch.getRgb());
-                toolbar.setTitleTextColor(vibrantSwatch.getBodyTextColor());
-
+                Palette.Swatch swatch = getSwatch(palette);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getWindow().setStatusBarColor(ColorUtil.getDarkerColor(vibrantSwatch.getRgb()));
+                    getWindow().setStatusBarColor(swatch.getRgb());
                 }
             });
         }

@@ -3,7 +3,6 @@ package clertonleal.com.simpleflickr.adapter.holder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -19,9 +18,6 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
     @InjectView(R.id.text_photo_information)
     public TextView dribbbleTittle;
-
-    @InjectView(R.id.layout_loading)
-    public LinearLayout layoutProgress;
 
     public OnPhotoClickListener onPhotoClickListener;
     public Photo photo;

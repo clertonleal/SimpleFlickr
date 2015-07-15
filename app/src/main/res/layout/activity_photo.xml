@@ -1,70 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:id="@+id/layout_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="13dp"
-            android:orientation="horizontal">
+            android:layout_height="250dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_profile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
-
-            <LinearLayout
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_gravity="center_vertical">
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleMarginStart="70dp"
+                app:expandedTitleMarginEnd="84dp">
 
-                <TextView
-                    android:id="@+id/text_photo_title"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:textSize="18sp"/>
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/image_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/photo_holder"/>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/image_profile"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="177dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"/>
+                </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/text_author_name"
-                    android:layout_width="wrap_content"
-                    android:maxLines="1"
-                    android:layout_height="wrap_content"/>
 
-            </LinearLayout>
-        </LinearLayout>
 
-        <include layout="@layout/card_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    android:background="@android:color/transparent"/>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
 
         <com.malinskiy.superrecyclerview.SuperRecyclerView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/list"
             android:scrollbars="vertical"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             app:layout_empty="@layout/empty_view"
             app:layout_moreProgress="@layout/more_progress"
-            app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"/>
-    </LinearLayout>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </android.support.design.widget.CoordinatorLayout>
     <include layout="@layout/more_progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

@@ -3,7 +3,6 @@ package clertonleal.com.simpleflickr.adapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
@@ -48,7 +47,6 @@ public class PhotoAdapter extends android.support.v7.widget.RecyclerView.Adapter
         holder.photo = photo;
         Picasso.with(context).load(photo.getPhotoUrl()).placeholder(R.drawable.photo_holder).into(holder.dribbbleImage);
         holder.dribbbleTittle.setText(photo.getTitle());
-        holder.layoutProgress.setVisibility(View.GONE);
     }
 
     @Override
