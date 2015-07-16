@@ -22,3 +22,5 @@ android:
 env:
   global:
     - JAVA_HOME=/usr/lib/jvm/java-8-oracle
+    - JAVA8_HOME=/usr/lib/jvm/java-8-oracle
+    - JAVA6_HOME=/usr/lib/jvm/java-6-oracle
