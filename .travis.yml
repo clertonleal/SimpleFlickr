@@ -19,5 +19,6 @@ android:
     - addon-google_apis-google-19
     - extra-android-support
 
-jdk:
-  - oraclejdk8
+env:
+  global:
+    - JAVA_HOME=/usr/lib/jvm/java-8-oracle
