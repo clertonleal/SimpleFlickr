@@ -7,11 +7,9 @@
 
     <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/list"
-        android:scrollbars="vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:layout_empty="@layout/empty_view"
-        app:layout_moreProgress="@layout/more_progress"
-        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"/>
+        app:layout_moreProgress="@layout/more_progress"/>
 
 </LinearLayout>
