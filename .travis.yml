@@ -18,6 +18,7 @@ android:
     - extra-android-m2repository
     - addon-google_apis-google-19
     - extra-android-support
+    - sys-img-armeabi-v7a-android-22
 
 jdk:
   - oraclejdk8
